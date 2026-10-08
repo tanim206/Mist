@@ -1,16 +1,27 @@
-import { Router } from "express";
+import { Router, type Request, type Response, type NextFunction } from "express";
+
 import { CategoryController } from "./category.controller";
-import { validateRequest } from "../../middleware/validateRequest";
 import { CategoryValidation } from "./category.validation";
+import { validateRequest } from "../../middleware/validateRequest";
 import { upload } from "../../lib/multer";
 
 const router = Router();
 
+const conditionalUpload = (fields: { name: string; maxCount: number }[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const contentType = req.headers["content-type"] || "";
+    if (contentType.startsWith("multipart/form-data")) {
+      return upload.fields(fields)(req, res, next);
+    }
+    next();
+  };
+};
+
 router.post(
   "/",
-  upload.single("image"),
+  conditionalUpload([{ name: "image", maxCount: 1 }]),
   validateRequest(CategoryValidation.createCategorySchema),
-  CategoryController.createCategory
+  CategoryController.createCategory,
 );
 
 router.get("/", CategoryController.getAllCategories);
@@ -21,9 +32,9 @@ router.get("/:id", CategoryController.getCategoryById);
 
 router.patch(
   "/:id",
-  upload.single("image"),
+  conditionalUpload([{ name: "image", maxCount: 1 }]),
   validateRequest(CategoryValidation.updateCategorySchema),
-  CategoryController.updateCategory
+  CategoryController.updateCategory,
 );
 
 router.delete("/:id", CategoryController.deleteCategory);

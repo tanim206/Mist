@@ -5,7 +5,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import { CategoryService } from "./category.service";
 
 const createCategory = catchAsync(async (req: Request, res: Response) => {
-  const imageBuffer = req.file?.buffer;
+  const imageBuffer = (req.files as Record<string, Express.Multer.File[]>)?.image?.[0]?.buffer;
   const result = await CategoryService.createCategory(req.body, imageBuffer);
   sendResponse(res, {
     success: true,
@@ -52,7 +52,7 @@ const getCategoryBySlug = catchAsync(async (req: Request, res: Response) => {
 
 const updateCategory = catchAsync(async (req: Request, res: Response) => {
   const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-  const imageBuffer = req.file?.buffer;
+  const imageBuffer = (req.files as Record<string, Express.Multer.File[]>)?.image?.[0]?.buffer;
   const result = await CategoryService.updateCategory(id, req.body, imageBuffer);
   sendResponse(res, {
     success: true,

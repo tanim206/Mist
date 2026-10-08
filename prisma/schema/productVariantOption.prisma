@@ -1,11 +1,11 @@
 model ProductVariantOption {
-  optionId       String @id @default(uuid())
+  optionId String @id @default(uuid())
 
-  variantId      String
-  variant        ProductVariant @relation(fields: [variantId], references: [variantId], onDelete: Cascade)
+  variantId String
+  variant   ProductVariant @relation(fields: [variantId], references: [variantId], onDelete: Cascade)
 
-  name           String
-  value          String
+  name  String
+  value String
 
   @@index([variantId])
   @@map("product_variant_options")

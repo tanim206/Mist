@@ -1,20 +1,19 @@
 model Category {
-  categoryId              String    @id @default(uuid())
-  name                    String
-  slug                    String    @unique
-  description             String?
-  
-  category_image          String?   @default("")
-  category_imagePublic_Id String?   @default("")
+  categoryId  String  @id @default(uuid())
+  name        String
+  slug        String  @unique
+  description String?
 
-  status                  CategoryStatus @default(ACTIVE)
+  category_image          String? @default("")
+  category_imagePublic_Id String? @default("")
 
-  createdAt               DateTime  @default(now())
-  updatedAt               DateTime  @updatedAt
-  deletedAt               DateTime?
+  status CategoryStatus @default(ACTIVE)
 
-  products                products[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  products products[]
 
   @@map("categories")
 }
-

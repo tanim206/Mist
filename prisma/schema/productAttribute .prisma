@@ -1,14 +1,14 @@
 model ProductAttribute {
-  attributeId    String   @id @default(uuid())
+  attributeId String @id @default(uuid())
 
-  productId      String
-  product       products @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  productId String
+  product   products @relation(fields: [productId], references: [productId], onDelete: Cascade)
 
-  name           String
-  value          String
+  name  String
+  value String
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([productId])
   @@map("product_attributes")

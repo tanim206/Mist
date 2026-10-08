@@ -1,0 +1,501 @@
+{
+  "info": {
+    "name": "E-Commerce API",
+    "description": "Complete API collection for E-Commerce backend - Category & Product modules",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "",
+      "type": "string",
+      "description": "Set after creating a category"
+    },
+    {
+      "key": "productId",
+      "value": "",
+      "type": "string",
+      "description": "Set after creating a product"
+    }
+  ],
+  "item": [
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Electronics",
+                  "type": "text",
+                  "description": "Category name (required)"
+                },
+                {
+                  "key": "slug",
+                  "value": "electronics",
+                  "type": "text",
+                  "description": "URL slug (optional, auto-generated from name)"
+                },
+                {
+                  "key": "description",
+                  "value": "Electronic devices and accessories",
+                  "type": "text",
+                  "description": "Category description (optional, max 500 chars)"
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE",
+                  "type": "text",
+                  "description": "Status: ACTIVE, INACTIVE (default: ACTIVE)"
+                },
+                {
+                  "key": "image",
+                  "value": "",
+                  "type": "file",
+                  "description": "Category image (optional, single file)"
+                }
+              ]
+            },
+            "description": "Create a new category with optional image. Send as multipart/form-data."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories?page=1&limit=10&sortBy=createdAt&sortOrder=desc&status=ACTIVE&searchTerm=electro",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE",
+                  "description": "Filter by status: ACTIVE, INACTIVE"
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "electro",
+                  "description": "Search in name, slug, description"
+                }
+              ]
+            },
+            "description": "Get paginated list of categories with filtering, sorting, and search"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "{{categoryId}}"]
+            },
+            "description": "Get single category by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/slug/electronics",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "slug", "electronics"]
+            },
+            "description": "Get single category by slug"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "{{categoryId}}"]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Electronics & Gadgets",
+                  "type": "text",
+                  "description": "Category name (optional)"
+                },
+                {
+                  "key": "slug",
+                  "value": "electronics-gadgets",
+                  "type": "text",
+                  "description": "Slug (optional)"
+                },
+                {
+                  "key": "description",
+                  "value": "Updated description for electronics and gadgets",
+                  "type": "text",
+                  "description": "Description (optional)"
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE",
+                  "type": "text",
+                  "description": "Status: ACTIVE, INACTIVE (optional)"
+                },
+                {
+                  "key": "image",
+                  "value": "",
+                  "type": "file",
+                  "description": "New category image (optional, replaces existing)"
+                }
+              ]
+            },
+            "description": "Update category. All fields optional. Providing image will replace existing one."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Category (Soft Delete)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "{{categoryId}}"]
+            },
+            "description": "Soft delete category (sets deletedAt). Also deletes associated image from Cloudinary."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Premium Wireless Headphones",
+                  "type": "text",
+                  "description": "Product name (required)"
+                },
+                {
+                  "key": "sku",
+                  "value": "WH-1000XM5-BLK",
+                  "type": "text",
+                  "description": "Unique SKU (required)"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "{{categoryId}}",
+                  "type": "text",
+                  "description": "Category UUID (required)"
+                },
+                {
+                  "key": "slug",
+                  "value": "premium-wireless-headphones",
+                  "type": "text",
+                  "description": "URL slug (optional, auto-generated from name)"
+                },
+                {
+                  "key": "shortDescription",
+                  "value": "Industry-leading noise canceling headphones",
+                  "type": "text",
+                  "description": "Short description (optional, max 500 chars)"
+                },
+                {
+                  "key": "description",
+                  "value": "Experience premium sound with industry-leading noise cancellation. 30-hour battery life, multipoint connection, and speak-to-chat technology.",
+                  "type": "text",
+                  "description": "Full description (optional)"
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE",
+                  "type": "text",
+                  "description": "Product status: DRAFT, ACTIVE, INACTIVE, ARCHIVED (default: DRAFT)"
+                },
+                {
+                  "key": "images",
+                  "value": "",
+                  "type": "file",
+                  "description": "Product images (optional, max 10 files)"
+                },
+                {
+                  "key": "attributes",
+                  "value": "[{\"name\": \"Brand\", \"value\": \"Sony\"}, {\"name\": \"Color\", \"value\": \"Black\"}, {\"name\": \"Connectivity\", \"value\": \"Bluetooth 5.2\"}, {\"name\": \"Battery Life\", \"value\": \"30 hours\"}]",
+                  "type": "text",
+                  "description": "JSON array of product attributes (optional)"
+                },
+                {
+                  "key": "variants",
+                  "value": "[{\"sku\": \"WH-1000XM5-BLK-STD\", \"price\": 399.99, \"discountPrice\": 349.99, \"stock\": 50, \"options\": [{\"name\": \"Model\", \"value\": \"Standard\"}]}]",
+                  "type": "text",
+                  "description": "JSON array of product variants with options (optional)"
+                },
+                {
+                  "key": "videos",
+                  "value": "[{\"videoUrl\": \"https://example.com/video.mp4\", \"thumbnailUrl\": \"https://example.com/thumb.jpg\", \"isPrimary\": true}]",
+                  "type": "text",
+                  "description": "JSON array of product videos (optional)"
+                }
+              ]
+            },
+            "description": "Create a new product with optional images, attributes, variants, and videos. Send as multipart/form-data."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products?page=1&limit=10&sortBy=createdAt&sortOrder=desc&status=ACTIVE&categoryId={{categoryId}}&searchTerm=headphone",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE",
+                  "description": "Filter by status: DRAFT, ACTIVE, INACTIVE, ARCHIVED"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "{{categoryId}}",
+                  "description": "Filter by category UUID"
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "headphone",
+                  "description": "Search in name, slug, sku, description"
+                }
+              ]
+            },
+            "description": "Get paginated list of products with filtering, sorting, and search"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            },
+            "description": "Get single product by ID with all relations (images, videos, attributes, variants, category)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/slug/premium-wireless-headphones",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "slug", "premium-wireless-headphones"]
+            },
+            "description": "Get single product by slug with all relations"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Premium Wireless Headphones Pro",
+                  "type": "text",
+                  "description": "Product name (optional)"
+                },
+                {
+                  "key": "sku",
+                  "value": "WH-1000XM5-BLK-PRO",
+                  "type": "text",
+                  "description": "SKU (optional)"
+                },
+                {
+                  "key": "slug",
+                  "value": "premium-wireless-headphones-pro",
+                  "type": "text",
+                  "description": "Slug (optional)"
+                },
+                {
+                  "key": "shortDescription",
+                  "value": "Industry-leading noise canceling headphones - Pro Edition",
+                  "type": "text",
+                  "description": "Short description (optional)"
+                },
+                {
+                  "key": "description",
+                  "value": "Updated description with pro features...",
+                  "type": "text",
+                  "description": "Full description (optional)"
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE",
+                  "type": "text",
+                  "description": "Status: DRAFT, ACTIVE, INACTIVE, ARCHIVED (optional)"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "{{categoryId}}",
+                  "type": "text",
+                  "description": "Category UUID (optional)"
+                },
+                {
+                  "key": "images",
+                  "value": "",
+                  "type": "file",
+                  "description": "New product images (optional, replaces existing if provided)"
+                },
+                {
+                  "key": "attributes",
+                  "value": "[{\"name\": \"Brand\", \"value\": \"Sony\"}, {\"name\": \"Color\", \"value\": \"Black\"}, {\"name\": \"Connectivity\", \"value\": \"Bluetooth 5.3\"}, {\"name\": \"Battery Life\", \"value\": \"40 hours\"}, {\"name\": \"Weight\", \"value\": \"250g\"}]",
+                  "type": "text",
+                  "description": "JSON array of attributes (optional, replaces existing if provided)"
+                },
+                {
+                  "key": "variants",
+                  "value": "[{\"sku\": \"WH-1000XM5-BLK-PRO-STD\", \"price\": 449.99, \"discountPrice\": 399.99, \"stock\": 30, \"options\": [{\"name\": \"Model\", \"value\": \"Pro Standard\"}]}, {\"sku\": \"WH-1000XM5-BLK-PRO-LTD\", \"price\": 499.99, \"stock\": 10, \"options\": [{\"name\": \"Model\", \"value\": \"Limited Edition\"}]}]",
+                  "type": "text",
+                  "description": "JSON array of variants (optional, replaces existing if provided)"
+                },
+                {
+                  "key": "videos",
+                  "value": "[{\"videoUrl\": \"https://example.com/new-video.mp4\", \"thumbnailUrl\": \"https://example.com/new-thumb.jpg\", \"isPrimary\": true}]",
+                  "type": "text",
+                  "description": "JSON array of videos (optional, replaces existing if provided)"
+                }
+              ]
+            },
+            "description": "Update product. All fields optional. Providing images/attributes/variants/videos arrays will replace existing ones."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product (Soft Delete)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            },
+            "description": "Soft delete product (sets deletedAt). Also deletes associated images/videos from Cloudinary."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "protocolProfileBehavior": {}
+}

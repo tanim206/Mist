@@ -12,6 +12,7 @@ import { getBkashIdToken } from "./app/lib/bkash";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import { CategoryRoutes } from "./app/modules/category/category.route";
+import { ProductRoutes } from "./app/modules/product/product.route";
 
 const app: Application = express();
 
@@ -31,25 +32,27 @@ app.use(cookieParser());
 
 // app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/categories", CategoryRoutes);
+app.use("/api/v1/products", ProductRoutes);
 
-app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const grantIdTokenResult = await getBkashIdToken();
+// app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     const grantIdTokenResult = await getBkashIdToken();
 
-    console.log(grantIdTokenResult);
+//     console.log(grantIdTokenResult);
 
-    res.status(httpStatus.OK).json({
-      success: true,
-      message: "Welcome to E Commerce Backend",
-      data: null,
-    });
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
-});
+//     res.status(httpStatus.OK).json({
+//       success: true,
+//       message: "Welcome to E Commerce Backend",
+//       data: null,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     next(error);
+//   }
+// });
 
 // Basic route
+
 app.get("/", async (req: Request, res: Response) => {
   res.status(httpStatus.OK).json({
     success: true,

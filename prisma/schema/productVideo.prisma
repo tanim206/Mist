@@ -1,11 +1,13 @@
-model ProductImage {
-  imageId String @id @default(uuid())
+model ProductVideo {
+  videoId String @id @default(uuid())
 
   productId String
   product   products @relation(fields: [productId], references: [productId], onDelete: Cascade)
 
-  imageUrl String
+  videoUrl String
   publicId String?
+
+  thumbnailUrl String?
 
   isPrimary Boolean @default(false)
   sortOrder Int     @default(0)
@@ -14,5 +16,5 @@ model ProductImage {
   updatedAt DateTime @updatedAt
 
   @@index([productId])
-  @@map("product_images")
+  @@map("product_videos")
 }
