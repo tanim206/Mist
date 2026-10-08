@@ -11,6 +11,7 @@ import config from "./app/config";
 import { getBkashIdToken } from "./app/lib/bkash";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
+import { CategoryRoutes } from "./app/modules/category/category.route";
 
 const app: Application = express();
 
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/categories", CategoryRoutes);
 
 app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
   try {

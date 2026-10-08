@@ -1,0 +1,27 @@
+model products {
+  productId       String    @id @default(uuid())
+
+  name            String
+  slug            String    @unique
+
+  shortDescription String?
+  description      String?
+
+  sku             String    @unique
+
+  status          ProductStatus @default(DRAFT)
+
+  categoryId      String
+  category        Category  @relation(fields: [categoryId], references: [categoryId])
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  images          ProductImage[]
+  attributes      ProductAttribute[]
+  variants        ProductVariant[]
+
+  @@map("products")
+}
+
